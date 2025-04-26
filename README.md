@@ -4,12 +4,17 @@ VimDecrypt
 Tool for decrypting VIM encrypted files.
 
 Dependencies:
- * [pycrypto](https://pypi.python.org/pypi/pycrypto)
+ * [pycryptodome](https://pypi.python.org/pypi/pycryptodome)
 
 vimdecrypt should work with both python2 and python3.
 
+## Installation
+```
+pip install pycryptodome
+cp vimdecrypt.py /usr/local/bin
+```
 
-Usage:
+## Usage:
 
     python vimdecrypt.py -p PASSWORD yourfile.txt
 
