@@ -18,6 +18,8 @@ cp vimdecrypt.py /usr/local/bin
 
     python vimdecrypt.py -p PASSWORD yourfile.txt
 
+If you do not provide the password option, you will be prompted for a password.
+
 Or with dictionary:
 
     python vimdecrypt.py --dictionary /usr/share/wordlists/rockyou.txt yourfile.txt
@@ -27,7 +29,7 @@ Or with dictionary:
 |:------------------ |:-------------------------
 | --test             | run vim selftest
 | --verbose          | print details about keys etc.
-| --password PASSWD  | use PASSWD to decrypt the specified files
+| --password PASSWD  | use PASSWD to decrypt the specified files 
 | --encoding ENC     | use an alternate encoding ( default = utf-8, example: latin-1, hex )
 | --writezip         | create PKCRACKable .zip file from VimCrypt file
 | --dictionary DICT  | try all words from DICT as password
@@ -37,6 +39,29 @@ Or with dictionary:
 A second tool will decrypt the swap file:
 
     python vimswap.py -p PASSWORD .yourfile.txt.swp
+
+## Integrating with Git to view diffs
+
+Assuming you have an environment variable set:
+```
+read -s VIMPASSWORD
+export VIMPASSWORD
+```
+this will work fine to do `git log -p` and see the diff between each revision.
+
+### gitconfig
+```
+[diff "vimcrypt"]
+    textconv = vimdecrypt.py -p $VIMPASSWORD
+    cachetextconv = false
+```
+
+### gitattributes
+You can stuff this in your repo to associate certain files with the "vimcrypt" type
+```
+❯ cat .gitattributes
+*.crypt     diff=vimcrypt
+```
 
 
 VIM
@@ -181,6 +206,7 @@ TODO
 
  * Add decryptor for encrypted .swp files
  * bug: wordlist from STDIN works only with one file.
+
 
 
 SIMILAR PROJECTS
